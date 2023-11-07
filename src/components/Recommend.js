@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 import "../styles/recommend.css";
 import "../styles/common.css";
 import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 function Recommend() {
   // js 코드 자리
@@ -16,6 +17,27 @@ function Recommend() {
   // JSON 데이터 저장해 두고, 자료가 바뀌면 화면을 변경할
   // 리액트 변수를 만든다.
   const [htmlTag, setHtmlTag] = useState([]);
+
+  const axiosJsonData = () => {
+    axios
+      .get("recommend.json")
+      .then(function (res) {
+        console.log(res.data);
+
+        const result = res.data;
+        çç;
+        let arr = [];
+        for (let i = 0; i < res.data; i++) {
+          const obj = res.data["good_" + (i + 1)];
+          arr[i] = obj;
+        }
+        console.log(arr);
+        setHtmlTag(arr);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   // 외부 데이터 연동하기 (fetch 이용)
   const getJsonData = () => {
@@ -56,7 +78,8 @@ function Recommend() {
   // 원하는 시점을 감시하고 실행할 함수
   useEffect(() => {
     // 외부 데이터 불러들이기
-    getJsonData();
+    axiosJsonData();
+    // getJsonData();
   }, []);
 
   return (
@@ -64,14 +87,18 @@ function Recommend() {
       <div className="recommend-inner">
         <div className="recommend-header">
           <h2 className="recommend-title">쇼핑추천</h2>
-          <span className="recommend-txt">할인이 쎄다! 지금, 특가 상품을 확인하세요.</span>
+          <span className="recommend-txt">
+            할인이 쎄다! 지금, 특가 상품을 확인하세요.
+          </span>
         </div>
 
         <div className="recommend-main">
           <div className="recommend-category">
             <ul className="recommend-list">
               <li>
-                <button className="recommend-cate-bt recommend-cate-bt-active">쎈딜</button>
+                <button className="recommend-cate-bt recommend-cate-bt-active">
+                  쎈딜
+                </button>
               </li>
               <li>
                 <button className="recommend-cate-bt">베스트</button>
@@ -124,7 +151,9 @@ function Recommend() {
                                 </span>
                               </li>
                               <li>
-                                <p className="recommend-good-info-desc">{item.desc}</p>
+                                <p className="recommend-good-info-desc">
+                                  {item.desc}
+                                </p>
                               </li>
                             </ul>
                           </div>
